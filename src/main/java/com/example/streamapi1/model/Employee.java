@@ -1,10 +1,12 @@
 package com.example.streamapi1.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Objects;
 
 public class Employee {
 
-    private final String fullName;
+    private String fullName;
     private int department;
     private double salary;
     private static int counter;
@@ -14,7 +16,7 @@ public class Employee {
     public Employee(String fullName, int department, double salary) {
         counter++;
         id = counter;
-        this.fullName = fullName;
+        setFullName(fullName);
         setDepartment(department);
         setSalary(salary);
     }
@@ -24,6 +26,16 @@ public class Employee {
             throw new IllegalArgumentException("Неверный номер отдела");
         }
         this.department = department;
+    }
+
+    public void setFullName(String fullName){
+        if (StringUtils.containsAny("1234567890!@#$%^&*()_+", fullName)){
+            throw new RuntimeException("йоу");
+        }
+
+        fullName = StringUtils.substring(fullName, 0,1).toUpperCase() + StringUtils.substring(fullName, 1);
+
+        this.fullName = fullName;
     }
 
     public void setSalary(double salary) {
