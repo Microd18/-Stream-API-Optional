@@ -1,22 +1,25 @@
 package com.example.streamapi1.model;
 
+import com.example.streamapi1.Exceptions.InvalidInputException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
 public class Employee {
 
-    private String fullName;
+    private String name;
+    private String surname;
     private int department;
     private double salary;
     private static int counter;
     private final int id;
 
 
-    public Employee(String fullName, int department, double salary) {
+    public Employee(String name, String surname, int department, double salary) {
         counter++;
         id = counter;
-        setFullName(fullName);
+        setName(name.toLowerCase());
+        setSurname(surname.toLowerCase());
         setDepartment(department);
         setSalary(salary);
     }
@@ -28,14 +31,24 @@ public class Employee {
         this.department = department;
     }
 
-    public void setFullName(String fullName){
-        if (StringUtils.containsAny("1234567890!@#$%^&*()_+", fullName)){
-            throw new RuntimeException("йоу");
+    public void setName(String name){
+        if (!StringUtils.isAlpha(name)){
+            throw new InvalidInputException("йоу");
         }
 
-        fullName = StringUtils.substring(fullName, 0,1).toUpperCase() + StringUtils.substring(fullName, 1);
+        name = StringUtils.capitalize(name);
 
-        this.fullName = fullName;
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        if (!StringUtils.isAlpha(surname)){
+            throw new InvalidInputException("йоу");
+        }
+
+        surname = StringUtils.capitalize(surname);
+
+        this.surname = surname;
     }
 
     public void setSalary(double salary) {
@@ -43,7 +56,7 @@ public class Employee {
     }
 
     public String getFullName() {
-        return fullName;
+        return name + " " + surname;
     }
 
     public int getDepartment() {
@@ -57,7 +70,6 @@ public class Employee {
     public int getId() {
         return id;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -67,17 +79,17 @@ public class Employee {
             return false;
         }
         Employee employee = (Employee) o;
-        return Objects.equals(fullName, employee.fullName);
+        return Objects.equals(name, employee.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fullName);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
-        return String.format("ФИ: %s, отдел: %d, ЗП: %d", fullName, department, salary);
+        return String.format("ФИ: %s, отдел: %d, ЗП: %f", getFullName(), department, salary);
     }
 
 }

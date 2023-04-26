@@ -16,8 +16,8 @@ public class EmployeeService {
     }
 
     // Добавить нового сотрудника
-    public Employee addEmployee(String name, int department, double salary) {
-        Employee people1 = new Employee(name, department, salary);
+    public Employee addEmployee(String name, String surname, int department, double salary) {
+        Employee people1 = new Employee(name, surname, department, salary);
 
         if (employees.size() == SIZE) {
             throw new ArrayStoreException("Нет места для нового сотрудника");
@@ -28,8 +28,8 @@ public class EmployeeService {
     }
 
     // Удалить сотрудника
-    public Employee remove(String fullName, int department, double salary) {
-        Employee employee = new Employee(fullName, department, salary);
+    public Employee remove(String name, String surname, int department, double salary) {
+        Employee employee = new Employee(name, surname, department, salary);
         if (!employees.contains(employee)) {
             throw new RuntimeException();
         }
@@ -38,8 +38,8 @@ public class EmployeeService {
     }
 
     // Найти сотрудника
-    public Employee find(String fullName, int department, int salary) {
-        Employee employee = new Employee(fullName, department, salary);
+    public Employee find(String name, String surname, int department, double salary) {
+        Employee employee = new Employee(name, surname, department, salary);
         if (!employees.contains(employee)) {
             throw new RuntimeException();
         }
